@@ -15,23 +15,44 @@ import java.io.IOException;
 * */
 public class DoLoginServlet extends HttpServlet {
     private IUserService service = new UserServiceImpl();
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        /*String fm = req.getParameter("fm");   //测试
+        System.out.println(fm);*/
         String username = req.getParameter("username");
         String password = req.getParameter("pwd");
-        //System.out.println(username + "" + password);  //测试语句u
-        User u = service.getOne(username);
-        System.out.println(u);  //测试语句u
-        if (u==null){    /*跳转注册界面*/
+       /* System.out.println(username + "  " + password);  //测试语句u*/
+        User user = service.getOne(username);
+        System.out.println(user);  //测试语句u
+        if (user != null) {
+            if (user.getPassword().equals(password)) {   //密码验证成功，跳转登录界面
+                resp.getWriter().write("1");
+                /*//重定向
+                resp.sendRedirect("list");*/
+            } else {
+                resp.getWriter().write("2");
+                /*//重定向
+                resp.sendRedirect("login");*/
+            }
+        }else {
+            resp.getWriter().write("3");
+        }
+        /*if (u==null){    *//*跳转注册界面*//*
+            *//*resp.getWriter().write("3");*//*
             resp.sendRedirect("register");
         }else {
-            if (u.getPassword().equals(password)){
-                /*重定向*/
+            u.getPassword();
+            if (u.getPassword().equals(password)){   *//*密码验证成功，跳转登录界面*//*
+             *//*resp.getWriter().write("1");*//*
+                //重定向
                 resp.sendRedirect("list");
             }else{
-                /*重定向*/
+                *//*resp.getWriter().write("2");*//*
+                //重定向
                 resp.sendRedirect("login");
             }
-        }
+        }*/
     }
 }
+
